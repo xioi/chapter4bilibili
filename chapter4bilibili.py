@@ -32,13 +32,17 @@ TAG:title=([^\n]*)
     return matches
 
 def format_time(seconds):
-    # m 是分钟，s 是秒
-    m, s = divmod(int(seconds), 60)
-    return f"{m:02d}:{s:02d}"
+    # 1. 算出小时，和剩下的秒数
+    h, remainder = divmod(seconds, 3600)
+    # 2. 从剩下的秒数里算出分钟和秒
+    m, s = divmod(remainder, 60)
+    
+    # :02d 确保小时、分钟、秒都是两位数，不足补0
+    return f"{h:02d}:{m:02d}:{s:02d}"
 
 def format_and_print(matches):
     for chapter in matches:
-        print(format_time(chapter[0]), chapter[1])
+        print(format_time(int(chapter[0])), chapter[1])
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
